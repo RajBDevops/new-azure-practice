@@ -42,9 +42,9 @@ resource "azurerm_virtual_machine" "my-vm" {
     managed_disk_type = "Standard_LRS"
   }
   os_profile {
-    computer_name  = "hostname"
-    admin_username = "testadmin"
-    admin_password = "Password1234!"
+    computer_name  = "XXXXXXXXX"
+    admin_username = "XXXXXXXX"
+    admin_password = "XXXXXXXXXXX"
   }
   os_profile_linux_config {
     disable_password_authentication = false
