@@ -2,7 +2,7 @@
 
 variable "my_storage_account" {
     type = string
-    default = "1234tfstore1987"
+    default = "9871234tfstore1987"
   
 }
 resource "azurerm_storage_account" "my_storage_account" {
