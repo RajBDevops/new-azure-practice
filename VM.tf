@@ -1,9 +1,9 @@
-data "azurerm_subnet" "subnetA"{
-  name = "subnetA"
-    virtual_network_name = azurerm_virtual_network.my-network.name
-    resource_group_name = azurerm_resource_group.rg.name
+data "azurerm_subnet" "subnetA" {
+  name                 = "subnetA"
+  virtual_network_name = azurerm_virtual_network.my-network.name
+  resource_group_name  = azurerm_resource_group.rg.name
 }
-#createing virtual machine
+
 resource "azurerm_network_interface" "my-nic" {
   name                = "my-nic"
   location            = azurerm_resource_group.rg.location
@@ -42,7 +42,7 @@ resource "azurerm_linux_virtual_machine" "my-vm" {
 
   admin_ssh_key {
     username   = "azureuser"
-    public_key = file("~/.ssh/id_rsa.pub")
+    public_key = var.ssh_public_key
   }
 
   disable_password_authentication = true
