@@ -21,7 +21,9 @@ resource "azurerm_linux_virtual_machine" "my-vm" {
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   size                = "Standard_D2s_v4"
-  admin_username      = "azureuser"
+
+  admin_username = var.admin_username
+  admin_password = var.admin_password
 
   network_interface_ids = [
     azurerm_network_interface.my-nic.id
@@ -40,10 +42,6 @@ resource "azurerm_linux_virtual_machine" "my-vm" {
     version   = "latest"
   }
 
-  admin_ssh_key {
-    username   = "azureuser"
-    public_key = var.ssh_public_key
-  }
-
-  disable_password_authentication = true
+  disable_password_authentication = false
 }
+
