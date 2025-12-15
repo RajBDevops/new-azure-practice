@@ -16,38 +16,34 @@ resource "azurerm_network_interface" "my-nic" {
   }
 }
 
-resource "azurerm_virtual_machine" "my-vm" {
-  name                  = "myVM"
+resource "azurerm_linux_virtual_machine" "my-vm" {
+  name                = "myVM"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
-  network_interface_ids = [azurerm_network_interface.my-nic.id]
-  vm_size               = "Standard_D2s_v4"
+  size                = "Standard_D2s_v4"
+  admin_username      = "azureuser"
 
-  # Uncomment this line to delete the OS disk automatically when deleting the VM
-  # delete_os_disk_on_termination = true
+  network_interface_ids = [
+    azurerm_network_interface.my-nic.id
+  ]
 
-  # Uncomment this line to delete the data disks automatically when deleting the VM
-  # delete_data_disks_on_termination = true
+  os_disk {
+    name                 = "myosdisk1"
+    caching              = "ReadWrite"
+    storage_account_type = "Standard_LRS"
+  }
 
-  storage_image_reference {
+  source_image_reference {
     publisher = "Canonical"
     offer     = "0001-com-ubuntu-server-jammy"
     sku       = "22_04-lts"
     version   = "latest"
   }
-  storage_os_disk {
-    name              = "myosdisk1"
-    caching           = "ReadWrite"
-    create_option     = "FromImage"
-    managed_disk_type = "Standard_LRS"
+
+  admin_ssh_key {
+    username   = "azureuser"
+    public_key = file("~/.ssh/id_rsa.pub")
   }
-  os_profile {
-    computer_name  = "XXXXXXXXX"
-    admin_username = "XXXXXXXX"
-    admin_password = "XXXXXXXXXXX"
-  }
-  os_profile_linux_config {
-    disable_password_authentication = false
-  }
- 
+
+  disable_password_authentication = true
 }
